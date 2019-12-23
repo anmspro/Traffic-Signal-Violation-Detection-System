@@ -42,8 +42,10 @@ The goal of the project is to automate the traffic signal violation detection sy
 
 ## Quick starting the project
 1. `git clone https://github.com/anmspro/Traffic-Signal-Violation-Detection-System.git`
-2. Install required python dependencies into your python virtual environment.
-3. `python Project-GUI.py`
+2. Download "yolov3.weights" from the link given in "yolov3 weights.txt"
+3. Change the directories in "Project-GUI.py" & "object_detection.py"
+3. Install required python dependencies into your python virtual environment.
+4. `python Project-GUI.py`
 
 ## System Overview
 
