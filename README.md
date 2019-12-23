@@ -4,7 +4,7 @@
 > <a href="https://drive.google.com/open?id=1H5RjHPJ0CK5yq2_3vwwo4CwZt1NXTeVB"><h3>Project Report</h3></a>
 
 
-![Violation_Detection_Frame](Images/Violation_Detection_Frame.jpg)
+![Violation_Detection_Frame](Images/Violation_Detection_Frame_Red.jpg)
 
 ## INTRO
 <img src="Images/Workflow Diagram.jpg" alt="Workflow Diagram" align="right" width="250" />
