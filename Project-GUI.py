@@ -217,7 +217,7 @@ class Window(Frame):
             od.do_nms(boxes, od.nms_thresh)     
 
             # draw bounding boxes on the image using labels
-            image2 = od.draw_boxes(image, boxes, self.line, od.labels, od.obj_thresh) 
+            image2 = od.draw_boxes(image, boxes, self.line, od.labels, od.obj_thresh, j) 
             
             writer.append_data(image2)
 
