@@ -1,7 +1,7 @@
 # Traffic Signal Violation Detection System using Computer Vision
 
 
-> <a href="https://drive.google.com/open?id=1H5RjHPJ0CK5yq2_3vwwo4CwZt1NXTeVB"><h3>Project Report</h3></a><br>
+> <a href="https://drive.google.com/open?id=1H5RjHPJ0CK5yq2_3vwwo4CwZt1NXTeVB"><h3>Project Report</h3></a>
 > <a href="https://drive.google.com/open?id=1l46H2pNTbLLcIFSHWsMtor-vlvNSA4Gu"><h3>Project Slide</h3></a>
 
 
