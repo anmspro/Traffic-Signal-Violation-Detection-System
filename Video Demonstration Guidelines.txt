@@ -1,0 +1,28 @@
+Open Anaconda Prompt.
+Go to project directory.
+Activate Virtual Platform.
+Run "python Project-GUI.py".
+Wait for the convolutional weights to be loaded. It will take some time.
+The GUI opens.
+Select any video file from your pc.
+A preview will be loaded.
+Now select Region of Interest.
+Detection will start automatically.
+This will be a slow process.
+You can press "q" to exit.
+Let's go to the directory.
+Output video and detected vehicles are saved.
+
+You can also open it from Anaconda Navigator.
+Select Virtual Platform.
+Launch Spyder.
+Select the project directory.
+Run "python Project-GUI.py".
+Wait for the convolutional weights to be loaded.
+The process is same as before.
+
+Thank you for watching. The whole process was a bit slow for the low configuration of my pc.
+Hope you will understand.
+:)
+
+If you like the project, give a visit: https://github.com/anmspro/Traffic-Signal-Violation-Detection-System
