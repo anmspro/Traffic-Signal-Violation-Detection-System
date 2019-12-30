@@ -152,5 +152,5 @@ The code in this project is licensed under GNU GPLv3 license.
 
 ## Stargazers over time
 
-[![Stargazers over time](https://starchart.cc/anmspro/Traffic-Signal-Violation-Detection-System.svg)](https://starchart.cc/anmspro/Traffic-Signal-Violation-Detection-System)
+![Stargazers over time](https://starchart.cc/anmspro/Traffic-Signal-Violation-Detection-System.svg)
       
