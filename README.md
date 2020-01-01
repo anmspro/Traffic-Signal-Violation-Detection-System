@@ -142,6 +142,7 @@ Bangladesh
 
 <b> Supervised under </b><br>
 Mahmudul Hasan Shauqi<br>
+mahmudulhasanshauqi@gmail.com<br>
 Lecturer<br>
 Dept. of Computer Science and Engineering<br>
 Khulna University of Engineering & Technology<br>
