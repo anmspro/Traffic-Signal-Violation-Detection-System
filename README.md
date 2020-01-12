@@ -131,6 +131,7 @@ So If you'd like to contribute, please fork the repository and use a feature bra
 - G. Ou, Y. Gao and Y. Liu, "Real TimeVehicularTrafficViolationDetectioninTrafficMonitorin gStream," in 2012 IEEE/WIC/ACM , Beijing, China , 2012.
 - X. Wang, L.-M. Meng, B. Zhang, J. Lu and K.-L.Du, "A Video-based Traffic Violation Detection System," in MEC, Shenyang, China, 2013.
 - Joseph Redmon and Ali Farhadi, "YOLOv3: An Incremental Improvement".
+- https://machinelearningmastery.com/how-to-perform-object-detection-with-yolov3-in-keras
 - In case of any help you may need from me, please contact abunomanmd.sakib@gmail.com directly without any hesitation! I will be glad to help you.
 
 ## Author
