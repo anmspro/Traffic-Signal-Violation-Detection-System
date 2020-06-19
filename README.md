@@ -137,6 +137,7 @@ So If you'd like to contribute, please fork the repository and use a feature bra
 ## Author
 Abu Noman Md. Sakib, Pias Roy<br>
 abunomanmd.sakib@gmail.com<br>
+pias.kuet@gmail.com<br>
 Student at Department of Computer Science and Engineering<br>
 Khulna University of Engineering & Technology, Khulna<br>
 Bangladesh
