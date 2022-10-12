@@ -1,11 +1,12 @@
 # Traffic Signal Violation Detection System using Computer Vision
 
-> <a href="https://youtu.be/PxHkKLUk_QM"><h3>Project Video Demonstration</h3></a>
+> <h3><a href="https://youtu.be/PxHkKLUk_QM">Project Video Demonstration</a></h3>
 
-> <a href="https://drive.google.com/open?id=1H5RjHPJ0CK5yq2_3vwwo4CwZt1NXTeVB"><h3>Project Report</h3></a>
+> <h3><a href="https://drive.google.com/open?id=1H5RjHPJ0CK5yq2_3vwwo4CwZt1NXTeVB">Project Report</a></h3>
 
-> <a href="https://drive.google.com/open?id=1l46H2pNTbLLcIFSHWsMtor-vlvNSA4Gu"><h3>Project Slide</h3></a>
+> <h3><a href="https://drive.google.com/open?id=1l46H2pNTbLLcIFSHWsMtor-vlvNSA4Gu">Project Slide</a></h3>
 
+<br>
 
 ![Violation_Detection_Frame](Images/Violation_Detection_Frame_Red.jpg)
 
