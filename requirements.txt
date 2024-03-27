@@ -1,0 +1,10 @@
+numpy
+pandas
+matplotlib
+scikit-learn
+tensorflow
+torch
+imageio
+imageio[ffmpeg]
+imageio[pyav]
+Pillow
