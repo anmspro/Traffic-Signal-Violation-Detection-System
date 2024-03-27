@@ -1,7 +1,12 @@
 import numpy as np
+# from keras.layers import Conv2D, Input, BatchNormalization, LeakyReLU, ZeroPadding2D, UpSampling2D
+# from keras.layers.merge import add, concatenate
+# from keras.models import Model
+
 from keras.layers import Conv2D, Input, BatchNormalization, LeakyReLU, ZeroPadding2D, UpSampling2D
-from keras.layers.merge import add, concatenate
+from keras.layers import add, concatenate  # Updated line
 from keras.models import Model
+
 import struct
 import cv2
 
@@ -374,7 +379,7 @@ def draw_boxes(image, boxes, line, labels, obj_thresh, dcnt):
                 cimg = image[box.ymin:box.ymax, box.xmin:box.xmax]
                 cv2.imshow("violation", cimg)
                 cv2.waitKey(5)
-                cv2.imwrite("G:/Traffic Violation Detection/Traffic Signal Violation Detection System/Detected Images/violation_"+str(dcnt)+".jpg", cimg)
+                cv2.imwrite("D:/UET/6th Senester/Open Source Software Development/Project/Traffic-Signal-Violation-Detection-System-master/Detected Images/violation_"+str(dcnt)+".jpg", cimg)
                 dcnt = dcnt+1
             else:
                 cv2.rectangle(image, (box.xmin,box.ymin), (box.xmax,box.ymax), (0,255,0), 3)
@@ -388,7 +393,7 @@ def draw_boxes(image, boxes, line, labels, obj_thresh, dcnt):
         
     return image
 
-weights_path = "G:/Traffic Violation Detection/yolov3.weights"
+weights_path = "D:/UET/6th Senester/Open Source Software Development/Project/Traffic-Signal-Violation-Detection-System-master/yolov3.weights"
 # set some parameters
 net_h, net_w = 416, 416
 obj_thresh, nms_thresh = 0.5, 0.45
