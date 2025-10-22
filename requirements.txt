@@ -1,0 +1,72 @@
+# Traffic Signal Violation Detection System - Python Dependencies
+# Compatible with Python 3.8+
+
+# ============================================================================
+# Core Deep Learning Framework
+# ============================================================================
+tensorflow>=2.10.0,<2.16.0  # TensorFlow 2.x with Keras integrated
+# Note: Use tensorflow-gpu for GPU support (deprecated in TF 2.10+, now auto-detects)
+
+# ============================================================================
+# Computer Vision
+# ============================================================================
+opencv-python>=4.6.0        # OpenCV for image/video processing
+opencv-contrib-python>=4.6.0  # Additional OpenCV modules (optional but useful)
+
+# ============================================================================
+# Image Processing
+# ============================================================================
+Pillow>=9.0.0               # PIL for image handling in GUI
+imageio>=2.22.0             # Video I/O operations
+imageio-ffmpeg>=0.4.7       # FFmpeg backend for imageio
+
+# ============================================================================
+# Numerical Computing
+# ============================================================================
+numpy>=1.21.0,<1.24.0       # Array operations (TF 2.x compatible version)
+
+# ============================================================================
+# GUI Framework
+# ============================================================================
+# tkinter comes pre-installed with Python, but some systems may need:
+# sudo apt-get install python3-tk  (Linux)
+
+# ============================================================================
+# Progress Tracking
+# ============================================================================
+tqdm>=4.64.0                # Progress bars for video processing
+
+# ============================================================================
+# Logging & Configuration
+# ============================================================================
+# Standard library modules (no installation needed):
+# - logging
+# - pathlib
+# - struct
+# - csv
+
+# ============================================================================
+# Development & Testing (Optional)
+# ============================================================================
+pytest>=7.2.0               # Unit testing framework
+pytest-cov>=4.0.0           # Test coverage reports
+black>=22.10.0              # Code formatting
+flake8>=5.0.0               # Linting
+mypy>=0.990                 # Type checking
+
+# ============================================================================
+# Alternative/Future Enhancements (Optional)
+# ============================================================================
+# ultralytics>=8.0.0        # YOLOv8 (modern alternative to YOLOv3)
+# customtkinter>=5.0.0      # Modern GUI widgets
+# pandas>=1.5.0             # CSV/data manipulation for reports
+# matplotlib>=3.6.0         # Plotting violation statistics
+
+# ============================================================================
+# System Requirements
+# ============================================================================
+# OS: Windows/Linux/macOS
+# Python: 3.8+
+# RAM: 8GB minimum (16GB recommended)
+# GPU: NVIDIA GPU with CUDA support (optional but recommended)
+# Disk Space: 2GB for model weights and dependencies

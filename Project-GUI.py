@@ -1,9 +1,20 @@
 from tkinter import *
+from tkinter import messagebox
 from PIL import Image, ImageTk
 from tkinter import filedialog
 import object_detection as od
 import imageio
 import cv2
+import logging
+import traceback
+from utils.geometry import line_segment_intersection
+
+# Configure basic logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 class Window(Frame):
     def __init__(self, master=None):
@@ -40,17 +51,66 @@ class Window(Frame):
         self.canvas.pack()
 
     def open_file(self):
-        self.filename = filedialog.askopenfilename()
+        """Open and load a video file for processing."""
+        try:
+            # Open file dialog with video file filter
+            self.filename = filedialog.askopenfilename(
+                title="Select Video File",
+                filetypes=[
+                    ("Video files", "*.mp4 *.avi *.mov *.mkv *.flv"),
+                    ("All files", "*.*")
+                ]
+            )
 
-        cap = cv2.VideoCapture(self.filename)
+            # User cancelled
+            if not self.filename:
+                return
 
-        reader = imageio.get_reader(self.filename)
-        fps = reader.get_meta_data()['fps'] 
+            logger.info(f"Opening video file: {self.filename}")
 
-        ret, image = cap.read()
-        cv2.imwrite('G:/Traffic Violation Detection/Traffic Signal Violation Detection System/Images/preview.jpg', image)
+            # Try to open video with OpenCV
+            cap = cv2.VideoCapture(self.filename)
+            if not cap.isOpened():
+                raise ValueError("Unable to open video file. The file may be corrupted or in an unsupported format.")
 
-        self.show_image('G:/Traffic Violation Detection/Traffic Signal Violation Detection System/Images/preview.jpg')
+            # Read first frame
+            ret, image = cap.read()
+            if not ret or image is None:
+                raise ValueError("Unable to read video frames. The video may be empty or corrupted.")
+
+            # Get FPS using imageio
+            try:
+                reader = imageio.get_reader(self.filename)
+                fps = reader.get_meta_data()['fps']
+                logger.info(f"Video FPS: {fps}")
+            except Exception as e:
+                logger.warning(f"Unable to read FPS metadata: {e}. Using default.")
+                fps = 30  # Default FPS
+
+            # Save preview image
+            preview_path = 'G:/Traffic Violation Detection/Traffic Signal Violation Detection System/Images/preview.jpg'
+            cv2.imwrite(preview_path, image)
+
+            # Display preview
+            self.show_image(preview_path)
+
+            logger.info("Video loaded successfully")
+            cap.release()
+
+        except FileNotFoundError as e:
+            error_msg = f"File not found: {self.filename}"
+            logger.error(error_msg)
+            messagebox.showerror("File Not Found", error_msg)
+
+        except ValueError as e:
+            error_msg = str(e)
+            logger.error(error_msg)
+            messagebox.showerror("Invalid Video", error_msg)
+
+        except Exception as e:
+            error_msg = f"Unexpected error opening video: {str(e)}"
+            logger.error(f"{error_msg}\n{traceback.format_exc()}")
+            messagebox.showerror("Error", error_msg)
 
 
     def show_image(self, frame):
@@ -136,105 +196,111 @@ class Window(Frame):
             for i in self.pos:
                 self.canvas.delete(i)
 
-    def intersection(self, p, q, r, t):
-        print(p, q, r, t)
-        (x1, y1) = p
-        (x2, y2) = q
-
-        (x3, y3) = r
-        (x4, y4) = t
-
-        a1 = y1-y2
-        b1 = x2-x1
-        c1 = x1*y2-x2*y1
-
-        a2 = y3-y4
-        b2 = x4-x3
-        c2 = x3*y4-x4*y3
-
-        if(a1*b2-a2*b1 == 0):
-            return False
-        print((a1, b1, c1), (a2, b2, c2))
-        x = (b1*c2 - b2*c1) / (a1*b2 - a2*b1)
-        y = (a2*c1 - a1*c2) / (a1*b2 - a2*b1)
-        print((x, y))
-
-        if x1 > x2:
-            tmp = x1
-            x1 = x2
-            x2 = tmp
-        if y1 > y2:
-            tmp = y1
-            y1 = y2
-            y2 = tmp
-        if x3 > x4:
-            tmp = x3
-            x3 = x4
-            x4 = tmp
-        if y3 > y4:
-            tmp = y3
-            y3 = y4
-            y4 = tmp
-
-        if x >= x1 and x <= x2 and y >= y1 and y <= y2 and x >= x3 and x <= x4 and y >= y3 and y <= y4:
-            return True
-        else:
-            return False
-
     def main_process(self):
+        """Process video and detect traffic violations."""
+        cap = None
+        writer = None
 
-        video_src = self.filename
+        try:
+            video_src = self.filename
 
-        cap = cv2.VideoCapture(video_src)
+            if not video_src:
+                raise ValueError("No video file selected")
 
-        reader = imageio.get_reader(video_src)
-        fps = reader.get_meta_data()['fps']    
-        writer = imageio.get_writer('G:/Traffic Violation Detection/Traffic Signal Violation Detection System/Resources/output/output.mp4', fps = fps)
-            
-        j = 1
-        while True:
-            ret, image = cap.read()
-           
-            if (type(image) == type(None)):
-                writer.close()
-                break
-            
-            image_h, image_w, _ = image.shape
-            new_image = od.preprocess_input(image, od.net_h, od.net_w)
+            logger.info("Starting violation detection process...")
 
-            # run the prediction
-            yolos = od.yolov3.predict(new_image)
-            boxes = []
+            # Open video capture
+            cap = cv2.VideoCapture(video_src)
+            if not cap.isOpened():
+                raise ValueError("Unable to open video file for processing")
 
-            for i in range(len(yolos)):
-                # decode the output of the network
-                boxes += od.decode_netout(yolos[i][0], od.anchors[i], od.obj_thresh, od.nms_thresh, od.net_h, od.net_w)
+            # Get video metadata
+            try:
+                reader = imageio.get_reader(video_src)
+                fps = reader.get_meta_data()['fps']
+                logger.info(f"Processing at {fps} FPS")
+            except Exception as e:
+                logger.warning(f"Unable to read FPS, using default: {e}")
+                fps = 30
 
-            # correct the sizes of the bounding boxes
-            od.correct_yolo_boxes(boxes, image_h, image_w, od.net_h, od.net_w)
+            # Setup output writer
+            output_path = 'G:/Traffic Violation Detection/Traffic Signal Violation Detection System/Resources/output/output.mp4'
+            try:
+                writer = imageio.get_writer(output_path, fps=fps)
+            except Exception as e:
+                raise IOError(f"Unable to create output video writer: {e}")
 
-            # suppress non-maximal boxes
-            od.do_nms(boxes, od.nms_thresh)     
+            j = 1
+            while True:
+                ret, image = cap.read()
 
-            # draw bounding boxes on the image using labels
-            image2 = od.draw_boxes(image, boxes, self.line, od.labels, od.obj_thresh, j) 
-            
-            writer.append_data(image2)
+                if not ret or image is None:
+                    logger.info(f"Processed {j-1} frames successfully")
+                    break
 
-            # cv2.imwrite('E:/Virtual Traffic Light Violation Detection System/Images/frame'+str(j)+'.jpg', image2)
-            # self.show_image('E:/Virtual Traffic Light Violation Detection System/Images/frame'+str(j)+'.jpg')
+                image_h, image_w, _ = image.shape
+                new_image = od.preprocess_input(image, od.net_h, od.net_w)
 
-            cv2.imshow('Traffic Violation', image2)
-            
-            print(j)
+                # run the prediction
+                yolos = od.yolov3.predict(new_image)
+                boxes = []
 
-            if cv2.waitKey(10) & 0xFF == ord('q'):
-                writer.close()
-                break
+                for i in range(len(yolos)):
+                    # decode the output of the network
+                    boxes += od.decode_netout(yolos[i][0], od.anchors[i], od.obj_thresh, od.nms_thresh, od.net_h, od.net_w)
 
-            j = j+1
+                # correct the sizes of the bounding boxes
+                od.correct_yolo_boxes(boxes, image_h, image_w, od.net_h, od.net_w)
 
-        cv2.destroyAllWindows()
+                # suppress non-maximal boxes
+                od.do_nms(boxes, od.nms_thresh)
+
+                # draw bounding boxes on the image using labels
+                image2 = od.draw_boxes(image, boxes, self.line, od.labels, od.obj_thresh, j)
+
+                writer.append_data(image2)
+
+                # cv2.imwrite('E:/Virtual Traffic Light Violation Detection System/Images/frame'+str(j)+'.jpg', image2)
+                # self.show_image('E:/Virtual Traffic Light Violation Detection System/Images/frame'+str(j)+'.jpg')
+
+                cv2.imshow('Traffic Violation', image2)
+
+                logger.info(f"Processing frame {j}")
+
+                if cv2.waitKey(10) & 0xFF == ord('q'):
+                    logger.info("Processing stopped by user")
+                    break
+
+                j = j+1
+
+            logger.info("Processing completed successfully")
+
+        except KeyboardInterrupt:
+            logger.info("Processing interrupted by user")
+            messagebox.showinfo("Interrupted", "Processing was interrupted")
+
+        except Exception as e:
+            error_msg = f"Error during video processing: {str(e)}"
+            logger.error(f"{error_msg}\n{traceback.format_exc()}")
+            messagebox.showerror("Processing Error", error_msg)
+
+        finally:
+            # Clean up resources
+            if writer is not None:
+                try:
+                    writer.close()
+                    logger.info("Output video writer closed")
+                except Exception as e:
+                    logger.error(f"Error closing video writer: {e}")
+
+            if cap is not None:
+                try:
+                    cap.release()
+                    logger.info("Video capture released")
+                except Exception as e:
+                    logger.error(f"Error releasing video capture: {e}")
+
+            cv2.destroyAllWindows()
 
 root = Tk()
 app = Window(root)

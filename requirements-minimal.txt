@@ -1,0 +1,10 @@
+# Minimal dependencies for Traffic Signal Violation Detection System
+# Use this for production deployment or minimal installations
+
+tensorflow>=2.10.0,<2.16.0
+opencv-python>=4.6.0
+Pillow>=9.0.0
+imageio>=2.22.0
+imageio-ffmpeg>=0.4.7
+numpy>=1.21.0,<1.24.0
+tqdm>=4.64.0
